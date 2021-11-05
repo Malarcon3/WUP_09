@@ -39,11 +39,9 @@ perch=filter(Fish,Species=="Perch")
 ```
 
 
-#Results
+# Results
 
 <!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
-
-
 
 ## Descriptive Results
 
@@ -51,9 +49,40 @@ perch=filter(Fish,Species=="Perch")
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
+```{r}
+basicNN <- ggplot(perch,aes(y=Weight,x=Length1^2))
+```
+##Now add in scatterplot
+
+```{r}
+basicNN + geom_point()
+```
+  
+```{r}
+basicNN + geom_point() + geom_smooth(method=lm)
+```   
+
 ### Numerical Descriptive Results
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = select (perch,-Species),
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+  
 
 ## Inferential Results
 
@@ -78,7 +107,7 @@ perch=filter(Fish,Species=="Perch")
 Subset of fish that contains the species I want to analyze. Then I will look at how well each combination of the predictor variables can predict the weight of the fish. We are using the pike subset in my analysis.
 
 
-#Results
+# Results
 
 <!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
 
@@ -87,6 +116,22 @@ Subset of fish that contains the species I want to analyze. Then I will look at 
 ### Graphical Descriptive Results
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+```{r}
+basicNN <- ggplot(davisdata,aes(y=Height,x=dadheight))
+```
+##Now add in scatterplot
+
+```{r}
+basicNN + geom_point()
+```
+  
+  
+  
+```{r}
+basicNN + geom_point() + geom_smooth(method=lm)
+```   
+
 
 ### Numerical Descriptive Results
 
@@ -113,7 +158,7 @@ Subset of fish that contains the species I want to analyze. Then I will look at 
 
 Subset of fish that contains the species I want to analyze. Then I will look at how well each combination of the predictor variables can predict the weight of the fish. We are using the Roach subset in my analysis.
 
-#Results
+# Results
 
 <!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
 
@@ -122,6 +167,18 @@ Subset of fish that contains the species I want to analyze. Then I will look at 
 ### Graphical Descriptive Results
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+```{r}
+basicNN <- ggplot(davisdata,aes(y=Height,x=dadheight))
+```
+##Now add in scatterplot
+
+```{r}
+basicNN + geom_point()
+```
+  
+  
+
 
 ### Numerical Descriptive Results
 
