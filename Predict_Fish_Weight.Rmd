@@ -81,6 +81,8 @@ as.data.frame(summary.out$outmat)
 library(car)
 subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
 ```
+
+The graph shows that the Y-axis is the adjusted R squared, and the X-axis is the number of variables used in a linear fit. The best fit comes from using two variables height and width.
   
   
 ```{r}
@@ -90,14 +92,16 @@ which.max(summary.out$adjr2)
 summary.out$which[2,]
 ```
 
+The summary shows which two variables are best. Which is height and width.
+
+
 ```{r}
 best.model <- lm(Weight~Height+Width,data=perch)
 summary(best.model)
 fullup=lm(Weight~.,data= select (perch, -Species))
 ```
 
-
-The P value 
+We made a linear model based on the best variables height and width. The best prediction for weight=-536 + 74.77 * Height + 69.62 * width. This equation is the best fit for predicting the weight of the perch using the two variables width and Height.
 
 ## Inferential Results
 
@@ -111,11 +115,14 @@ $H_A$: There is a difference between models 1 and 2 when predicting the Weight o
 anova(fullup,best.model)
 ```
 
+This Analysis of Variance Table shows  that model 1 is slightly better because it has a smaller Residual sum of squares.
+
+
 # Discussion and Conclusion
 
-<!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
+<!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variables causes the other, or whether they perhaps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
 
-We fail to reject the Null Hypothesis because the P value is high at 0.879.
+We fail to reject the Null Hypothesis because the P value is relativity high at 0.879. We conclude that Height and width are the two best variables when predicting weight.
 
 # Second Fish
 
