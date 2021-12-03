@@ -126,7 +126,7 @@ We fail to reject the Null Hypothesis because the P value is relativity high at 
 
 # Second Fish
 
-## Build the best regression model you can that predicts the weight of perch
+## Build the best regression model you can that predicts the weight of bream
 ## Using only two predictor variables  
 
 # Methods
@@ -197,9 +197,13 @@ summary(best.model)
 fullup=lm(Weight~.,data= select (bream, -Species))
 ```
 
+
+We made a linear model based on the best variables height and width. The best prediction for weight=-536 + 74.77 * Height + 69.62 * width. This equation is the best fit for predicting the weight of the perch using the two variables width and Height.
 ### Numerical Descriptive Results
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+
 
 ## Inferential Results
 
@@ -218,7 +222,7 @@ $H_A$: There is a difference between models 1 and 2 when predicting the Weight o
 
 
 # Third Fish
-## Build the best regression model you can that predicts the weight of perch
+## Build the best regression model you can that predicts the weight of roach
 ## Using only two predictor variables  
 
 
@@ -246,7 +250,7 @@ roach=filter(Fish,Species=="Roach")
 
 
 ```{r}
-basicNN <- ggplot(perch,aes(y=Weight,x=Length1))
+basicNN <- ggplot(roach,aes(y=Weight,x=Length1))
 ```
 ##Now add in scatterplot
 
@@ -290,12 +294,15 @@ which.max(summary.out$adjr2)
 summary.out$which[2,]
 ```
 
+The summary shows which two variables are best. Which is height and width.
 
 ```{r}
 best.model <- lm(Weight~Height+Width,data=roach)
 summary(best.model)
 fullup=lm(Weight~.,data= select (roach, -Species))
 ```
+
+We made a linear model based on the best variables height and width. The best prediction for weight=-286 + 9.47 * Height + 102.473 * width. This equation is the best fit for predicting the weight of the perch using the two variables width and Height.
 
 ## Inferential Results
 
