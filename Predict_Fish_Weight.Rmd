@@ -129,13 +129,15 @@ We fail to reject the Null Hypothesis because the P value is relativity high at 
 ## Build the best regression model you can that predicts the weight of perch
 ## Using only two predictor variables  
 
-
 # Methods
 
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.!-->
 
 Subset of fish that contains the species I want to analyze. Then I will look at how well each combination of the predictor variables can predict the weight of the fish. We are using the pike subset in my analysis.
 
+```{r}
+bream=filter(Fish,Species=="Bream")
+```
 
 # Results
 
@@ -143,13 +145,56 @@ Subset of fish that contains the species I want to analyze. Then I will look at 
 
 ## Descriptive Results
 
+```{r}
+basicNN <- ggplot(bream,aes(y=Weight,x=Length1))
+```
+##Now add in scatterplot
+
+```{r}
+basicNN + geom_point()
+```
+
+```{r}
+basicNN + geom_point() + geom_smooth(method=lm)
+```   
+
 ### Graphical Descriptive Results
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = select (bream,-Species),
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
 
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
   
 
+```{r}
+which.max(summary.out$adjr2)
+```
+
+```{r}
+summary.out$which[2,]
+```
+
+The summary shows which two variables are best. Which is height and width.
+
+
+```{r}
+best.model <- lm(Weight~Height+Width,data=perch)
+summary(best.model)
+fullup=lm(Weight~.,data= select (bream, -Species))
+```
 
 ### Numerical Descriptive Results
 
@@ -158,6 +203,12 @@ Subset of fish that contains the species I want to analyze. Then I will look at 
 ## Inferential Results
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+
+
+$H_0$: There is no difference between models 1 and 2 when predicting the Weight of the fish (bream).
+
+$H_A$: There is a difference between models 1 and 2 when predicting the Weight of the fish (bream).
+
 
 
 # Discussion and Conclusion
